@@ -41,9 +41,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MicroAPI = void 0;
 var axios_1 = __importDefault(require("axios"));
+require("dotenv/config");
 var MicroAPI = /** @class */ (function () {
-    function MicroAPI(apiToken) {
+    function MicroAPI() {
         this.baseURL = "https://pro-api.coinmarketcap.com/v1/";
+        var apiToken = process.env.API_TOKEN;
         this.axiosInstance = axios_1.default.create({
             baseURL: this.baseURL,
         });

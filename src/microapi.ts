@@ -1,10 +1,11 @@
 import axios, { AxiosInstance } from "axios";
-
+require("dotenv/config");
 export class MicroAPI {
   baseURL: string = "https://pro-api.coinmarketcap.com/v1/";
   axiosInstance: AxiosInstance;
 
-  constructor(apiToken: string) {
+  constructor() {
+    let apiToken = process.env.API_TOKEN;
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
     });
