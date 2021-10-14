@@ -1,11 +1,16 @@
 import axios, { AxiosInstance } from "axios";
-require("dotenv/config");
+require("dotenv").config();
+
 export class MicroAPI {
   baseURL: string = "https://pro-api.coinmarketcap.com/v1/";
   axiosInstance: AxiosInstance;
 
   constructor() {
-    let apiToken = process.env.API_TOKEN;
+    const API_TOKEN = process.env.API_TOKEN;
+
+    console.log(API_TOKEN);
+
+    let apiToken = API_TOKEN;
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
     });
@@ -39,6 +44,7 @@ export class MicroAPI {
       return coin;
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        console.log("entrei aqui");
         return error.response?.data;
       } else {
         throw "Unknow Exception";
