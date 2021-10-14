@@ -41,11 +41,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MicroAPI = void 0;
 var axios_1 = __importDefault(require("axios"));
-require("dotenv/config");
+require("dotenv").config();
 var MicroAPI = /** @class */ (function () {
     function MicroAPI() {
         this.baseURL = "https://pro-api.coinmarketcap.com/v1/";
-        var apiToken = process.env.API_TOKEN;
+        var API_TOKEN = process.env.API_TOKEN;
+        console.log(API_TOKEN);
+        var apiToken = API_TOKEN;
         this.axiosInstance = axios_1.default.create({
             baseURL: this.baseURL,
         });
@@ -82,6 +84,7 @@ var MicroAPI = /** @class */ (function () {
                     case 3:
                         error_1 = _b.sent();
                         if (axios_1.default.isAxiosError(error_1)) {
+                            console.log("entrei aqui");
                             return [2 /*return*/, (_a = error_1.response) === null || _a === void 0 ? void 0 : _a.data];
                         }
                         else {
