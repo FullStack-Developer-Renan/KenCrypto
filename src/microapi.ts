@@ -8,8 +8,6 @@ export class MicroAPI {
   constructor() {
     const API_TOKEN = process.env.API_TOKEN;
 
-    console.log(API_TOKEN);
-
     let apiToken = API_TOKEN;
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
@@ -44,7 +42,6 @@ export class MicroAPI {
       return coin;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("entrei aqui");
         return error.response?.data;
       } else {
         throw "Unknow Exception";
