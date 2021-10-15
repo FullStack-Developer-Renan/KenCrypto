@@ -45,21 +45,21 @@ require("dotenv").config();
 var MicroAPI = /** @class */ (function () {
     function MicroAPI() {
         this.baseURL = "https://pro-api.coinmarketcap.com/v1/";
-        var API_TOKEN = process.env.API_TOKEN;
+        var API_TOKEN = "a163bb45-fbd2-44fc-9894-b1f588e49a34";
         var apiToken = API_TOKEN;
         this.axiosInstance = axios_1.default.create({
             baseURL: this.baseURL,
         });
         this.axiosInstance.defaults.headers.common["X-CMC_PRO_API_KEY"] = "" + apiToken;
     }
-    MicroAPI.prototype.cryptoCurrency = function (symbol) {
+    MicroAPI.prototype.cryptoCurrencyNoQP = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var url, response, handle_resp, coin, i, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        url = "cryptocurrency/quotes/latest?symbol=" + symbol;
+                        url = "cryptocurrency/listings/latest";
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
@@ -69,15 +69,27 @@ var MicroAPI = /** @class */ (function () {
                         handle_resp = response.data;
                         coin = handle_resp[Object.keys(handle_resp)[1]];
                         for (i = 0; i < Object.keys(coin).length; i++) {
-                            delete coin[Object.keys(coin)[0]]["tags"];
-                            delete coin[Object.keys(coin)[0]]["num_market_pairs"];
-                            delete coin[Object.keys(coin)[0]]["max_supply"];
-                            delete coin[Object.keys(coin)[0]]["circulating_supply"];
-                            delete coin[Object.keys(coin)[0]]["total_supply"];
-                            delete coin[Object.keys(coin)[0]]["is_active"];
-                            delete coin[Object.keys(coin)[0]]["platform"];
-                            delete coin[Object.keys(coin)[0]]["cmc_rank"];
-                            delete coin[Object.keys(coin)[0]]["is_fiat"];
+                            delete coin[i]["tags"];
+                            delete coin[i]["num_market_pairs"];
+                            delete coin[i]["max_supply"];
+                            delete coin[i]["circulating_supply"];
+                            delete coin[i]["total_supply"];
+                            delete coin[i]["is_active"];
+                            delete coin[i]["platform"];
+                            delete coin[i]["cmc_rank"];
+                            delete coin[i]["is_fiat"];
+                            delete coin[i]["quote"]["USD"]["volume_24h"];
+                            delete coin[i]["quote"]["USD"]["volume_change_24h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_1h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_24h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_7d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_30d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_90d"];
+                            delete coin[i]["quote"]["USD"]["market_cap"];
+                            delete coin[i]["quote"]["USD"]["market_cap_dominance"];
+                            delete coin[i]["quote"]["USD"]["fully_diluted_market_cap"];
                         }
                         return [2 /*return*/, coin];
                     case 3:
@@ -94,10 +106,118 @@ var MicroAPI = /** @class */ (function () {
             });
         });
     };
+    MicroAPI.prototype.cryptoCurrencyQP = function (symbol) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var url, response, handle_resp, coin, i, error_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        url = "cryptocurrency/quotes/latest?symbol=" + symbol;
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.axiosInstance.get(url)];
+                    case 2:
+                        response = _b.sent();
+                        handle_resp = response.data;
+                        coin = handle_resp[Object.keys(handle_resp)[1]];
+                        for (i = 0; i < Object.keys(coin).length; i++) {
+                            delete coin[Object.keys(coin)[i]]["tags"];
+                            delete coin[Object.keys(coin)[i]]["num_market_pairs"];
+                            delete coin[Object.keys(coin)[i]]["max_supply"];
+                            delete coin[Object.keys(coin)[i]]["circulating_supply"];
+                            delete coin[Object.keys(coin)[i]]["total_supply"];
+                            delete coin[Object.keys(coin)[i]]["is_active"];
+                            delete coin[Object.keys(coin)[i]]["platform"];
+                            delete coin[Object.keys(coin)[i]]["cmc_rank"];
+                            delete coin[Object.keys(coin)[i]]["is_fiat"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["volume_24h"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["volume_change_24h"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_1h"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_24h"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_7d"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_30d"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["percent_change_90d"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["market_cap"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["market_cap_dominance"];
+                            delete coin[Object.keys(coin)[i]]["quote"]["USD"]["fully_diluted_market_cap"];
+                        }
+                        return [2 /*return*/, coin];
+                    case 3:
+                        error_2 = _b.sent();
+                        if (axios_1.default.isAxiosError(error_2)) {
+                            return [2 /*return*/, (_a = error_2.response) === null || _a === void 0 ? void 0 : _a.data];
+                        }
+                        else {
+                            throw "Unknow Exception";
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    MicroAPI.prototype.cryptoList = function (symbol) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var url, response, handle_resp, coin, i, error_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        url = "cryptocurrency/listings/latest?symbol=" + symbol;
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.axiosInstance.get(url)];
+                    case 2:
+                        response = _b.sent();
+                        handle_resp = response.data;
+                        coin = handle_resp[Object.keys(handle_resp)[1]];
+                        for (i = 0; i < Object.keys(coin).length; i++) {
+                            delete coin[i]["tags"];
+                            delete coin[i]["num_market_pairs"];
+                            delete coin[i]["max_supply"];
+                            delete coin[i]["circulating_supply"];
+                            delete coin[i]["total_supply"];
+                            delete coin[i]["is_active"];
+                            delete coin[i]["platform"];
+                            delete coin[i]["cmc_rank"];
+                            delete coin[i]["is_fiat"];
+                            delete coin[i]["quote"]["USD"]["volume_24h"];
+                            delete coin[i]["quote"]["USD"]["volume_change_24h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_1h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_24h"];
+                            delete coin[i]["quote"]["USD"]["percent_change_7d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_30d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_60d"];
+                            delete coin[i]["quote"]["USD"]["percent_change_90d"];
+                            delete coin[i]["quote"]["USD"]["market_cap"];
+                            delete coin[i]["quote"]["USD"]["market_cap_dominance"];
+                            delete coin[i]["quote"]["USD"]["fully_diluted_market_cap"];
+                        }
+                        return [2 /*return*/, coin];
+                    case 3:
+                        error_3 = _b.sent();
+                        if (axios_1.default.isAxiosError(error_3)) {
+                            return [2 /*return*/, (_a = error_3.response) === null || _a === void 0 ? void 0 : _a.data];
+                        }
+                        else {
+                            throw "Unknow Exception";
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     MicroAPI.prototype.priceConversion = function (amount, symbol, convert) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, error_2;
+            var url, response, error_4;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -110,9 +230,9 @@ var MicroAPI = /** @class */ (function () {
                         response = _b.sent();
                         return [2 /*return*/, response.data];
                     case 3:
-                        error_2 = _b.sent();
-                        if (axios_1.default.isAxiosError(error_2)) {
-                            return [2 /*return*/, (_a = error_2.response) === null || _a === void 0 ? void 0 : _a.data];
+                        error_4 = _b.sent();
+                        if (axios_1.default.isAxiosError(error_4)) {
+                            return [2 /*return*/, (_a = error_4.response) === null || _a === void 0 ? void 0 : _a.data];
                         }
                         else {
                             throw "Unknow Exception";

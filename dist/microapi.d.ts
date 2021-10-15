@@ -3,6 +3,8 @@ export declare class MicroAPI {
     baseURL: string;
     axiosInstance: AxiosInstance;
     constructor();
-    cryptoCurrency(symbol: string[]): Promise<any>;
+    cryptoCurrencyNoQP(): Promise<any>;
+    cryptoCurrencyQP(symbol: string): Promise<any>;
+    cryptoList(symbol: string): Promise<any>;
     priceConversion(amount: number, symbol: string, convert: string[]): Promise<any>;
 }
